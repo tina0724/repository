@@ -21,11 +21,14 @@ class RecordService {
 
   getActiveTimeInTimePeriod = async ({ account, role_id, before_time, after_time }) => await rewardRecordDao.getActiveTimeInTimePeriod({ account, role_id, before_time, after_time })
 
-  addActiveVPrice = async ({ account, role_id, v_price }) => await userDao.addVPrice({ account, role_id, v_price })
+  addActiveVPrice = async ({ account, v_price }) => await userDao.addVPrice({ account, v_price })
 
   getMyCurrentRecord = async ({ account, role_id }) => {
     const [left, right] = period()
     return await rewardRecordDao.getMyCurrentRecord({ account, role_id, left, right })
+  }
+  getActiveVPrice = async ({ account }) => {
+    return await userDao.getActiveVPrice({ account })
   }
 }
 

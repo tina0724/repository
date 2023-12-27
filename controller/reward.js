@@ -1,4 +1,5 @@
 const rewardService = require('../services/reward')
+const userService = require('../services/user')
 
 class RewardController {
   checkIn = async (req) => {
@@ -20,8 +21,10 @@ class RewardController {
   }
 
   addActiveVPrice = async (req) => {
-    const { my_account, my_role_id, v_price } = req.body
-    const res = await rewardService.addActiveVPrice({ account: my_account, role_id: my_role_id, v_price })
+    //const { my_account, my_role_id, v_price } = req.body
+    //const res = await rewardService.addActiveVPrice({ account: my_account, role_id: my_role_id, v_price })
+    const { my_account, v_price } = req.body
+    const res = await rewardService.addActiveVPrice({ account: my_account, v_price })
     return res
   }
 
@@ -30,6 +33,13 @@ class RewardController {
     const res = await rewardService.getMyCurrentRecord({ account: my_account, role_id: my_role_id })
     return res
   }
+  getActiveVPrice = async (req) => {
+    const { account } = req.body
+    const res = await rewardService.getActiveVPrice({ account: account })
+    return res
+  }
+
+
 }
 
 const rewardController = new RewardController()

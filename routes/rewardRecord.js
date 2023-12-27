@@ -10,6 +10,7 @@ const API_ROUTE = {
   getActiveTimeInTimePeriod: '/student/get-active-time',
   addActiveVPrice: '/student/add-active-vprice',
   getMyCurrentRecord: '/student/get-current-record',
+  getActiveVPrice: '/student/get-ActiveV-Price'
 }
 
 router.post(API_ROUTE.checkIn, wrapper(rewardController.checkIn))
@@ -17,5 +18,6 @@ router.post(API_ROUTE.refreshActiveTime, wrapper(rewardController.refreshActiveT
 router.get(API_ROUTE.getActiveTimeInTimePeriod, wrapper(rewardController.getActiveTimeInTimePeriod))
 router.post(API_ROUTE.addActiveVPrice, wrapper(rewardController.addActiveVPrice))
 router.get(API_ROUTE.getMyCurrentRecord, wrapper(rewardController.getMyCurrentRecord))
+router.get(API_ROUTE.getActiveVPrice, wrapper(rewardController.getActiveVPrice))
 
 module.exports = router

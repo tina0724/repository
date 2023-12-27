@@ -56,10 +56,10 @@ class UserDao {
     return await userModel.findOneAndUpdate(
       { account },
       {
-        user_name,
+        //user_name,
         password,
-        role_id,
-        account: new_account,
+        //role_id,
+        //account: new_account,
       },
       { session }
     )
@@ -77,25 +77,26 @@ class UserDao {
 
   // 查询用户列表(分页)
   async findUserList({
-    account,
+    //account,
     department, // 暂不做数据过滤
     activation_status,
-    role_id,
+    //role_id,
     delete_status = 0,
-    size,
-    page,
+    //size,
+    //page,
   }) {
     const matchPip = {
       delete_status: { $eq: delete_status },
-      account: { $regex: account },
+      //account: { $regex: account },
     }
     if (!lodash.isNil(activation_status)) matchPip.activation_status = activation_status
-    if (!lodash.isEmpty(role_id)) matchPip.role_id = { $eq: toObjectId(role_id) }
+    // if (!lodash.isEmpty(role_id)) matchPip.role_id = { $eq: toObjectId(role_id) }
 
     return await pagination({
       model: userModel,
       matchPip,
       listPip: [
+        /*
         {
           $lookup: {
             from: 'roles',
@@ -104,8 +105,12 @@ class UserDao {
             as: 'role',
           },
         },
+        */
+        {
+          $sort: { v_price: -1 } // 按照 v_price 字段降序排序
+        }
       ],
-      options: { size, page },
+      //options: { size, page },
     })
   }
 
@@ -142,18 +147,22 @@ class UserDao {
   }
 
   // 添加虚拟奖励
-  addVPrice = async ({ account, role_id, v_price }, session) => {
+  addVPrice = async ({ account, v_price }, session) => {
     const result = await userModel.findOneAndUpdate(
-      { account, role_id },
+      { account },
       {
-        v_price: { $inc: { v_price } },
+        //v_price: { $inc: { v_price } },
+        $inc: { v_price: v_price },
       },
       { session }
     )
     return result
   }
-}
+  getActiveVPrice = async ({ account }) => {
+    return await userModel.findOne({ account }, { password: 0, delete_status: 0 })
 
+  }
+}
 const userDao = new UserDao()
 
 module.exports = userDao

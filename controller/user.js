@@ -3,13 +3,14 @@ const desensitize = require('../utils/desensitize')
 
 class UserController {
   getUserList = async (req) => {
-    const { role_id = '', activation_status, account = '', size, page } = req.query
+    //const { role_id = '', activation_status, account = '', size, page } = req.query
+    const { activation_status } = req.query
     const result = await userService.getUserList({
-      role_id,
+      //role_id,
       activation_status,
-      account,
-      size,
-      page,
+      //account,
+      //size,
+      //page,
     })
     return desensitize(result)
   }
@@ -27,7 +28,7 @@ class UserController {
   }
 
   updateUser = async (req) => {
-    const { account, user_name = null, password = null, new_account, role_id = null } = req.body
+    const { account, user_name, password, new_account, role_id } = req.body
     const result = await userService.updateUser({
       account,
       user_name,
